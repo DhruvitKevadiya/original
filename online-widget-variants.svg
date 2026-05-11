@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="790" height="520" viewBox="0 0 790 520"><rect width="790" height="520" fill="#11100c"/><defs><linearGradient id="g2020" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#211b13"/><stop offset="1" stop-color="#11100c"/></linearGradient><linearGradient id="g27020" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a2612"/><stop offset="1" stop-color="#1a1009"/></linearGradient><linearGradient id="g52020" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#243515"/><stop offset="1" stop-color="#10160b"/></linearGradient><linearGradient id="g20270" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a2f13"/><stop offset="1" stop-color="#201109"/></linearGradient><linearGradient id="g270270" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2c261c"/><stop offset="1" stop-color="#15120d"/></linearGradient><linearGradient id="g520270" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c2414"/><stop offset="1" stop-color="#0d1009"/></linearGradient></defs>
+  <g transform="translate(20,20)">
+    <rect width="220" height="210" rx="22" fill="#0f0d09" opacity="0.9"/>
+    <text x="18" y="28" fill="#fff4dc" font-size="16" font-weight="800" font-family="Nunito, Arial">Warm Graphite</text>
+    <g transform="translate(64,48)">
+      <rect width="96" height="128" rx="14" fill="url(#g2020)" stroke="#47361e" stroke-width="1.4"/>
+      <path d="M42 17c4-4 8-4 12 0" fill="none" stroke="#9df35e" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M36 11c8-7 16-7 24 0" fill="none" stroke="#9df35e" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <circle cx="48" cy="22" r="2" fill="#9df35e"/>
+      <text x="48" y="58" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Nunito, Arial">3 744</text>
+      <text x="48" y="82" text-anchor="middle" fill="#fff4dc" opacity=".78" font-size="12" font-weight="800" font-family="Nunito, Arial">Онлайн</text>
+      <rect x="0" y="94" width="44" height="34" rx="9" fill="#ffdb74"/>
+      <rect x="52" y="94" width="44" height="34" rx="9" fill="#252033"/>
+      <path d="M16 107l4 6 4-8 5 8 4-6v12H16z" fill="none" stroke="#231306" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="65" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="65" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+    </g>
+  </g>
+  <g transform="translate(270,20)">
+    <rect width="220" height="210" rx="22" fill="#0f0d09" opacity="0.9"/>
+    <text x="18" y="28" fill="#fff4dc" font-size="16" font-weight="800" font-family="Nunito, Arial">Gold Cocoa</text>
+    <g transform="translate(64,48)">
+      <rect width="96" height="128" rx="14" fill="url(#g27020)" stroke="#8a5a1e" stroke-width="1.4"/>
+      <path d="M42 17c4-4 8-4 12 0" fill="none" stroke="#ffe68a" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M36 11c8-7 16-7 24 0" fill="none" stroke="#ffe68a" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <circle cx="48" cy="22" r="2" fill="#ffe68a"/>
+      <text x="48" y="58" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Nunito, Arial">3 744</text>
+      <text x="48" y="82" text-anchor="middle" fill="#fff4dc" opacity=".78" font-size="12" font-weight="800" font-family="Nunito, Arial">Онлайн</text>
+      <rect x="0" y="94" width="44" height="34" rx="9" fill="#ffb13b"/>
+      <rect x="52" y="94" width="44" height="34" rx="9" fill="#2b1d13"/>
+      <path d="M16 107l4 6 4-8 5 8 4-6v12H16z" fill="none" stroke="#2a1203" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="65" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="65" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+    </g>
+  </g>
+  <g transform="translate(520,20)">
+    <rect width="220" height="210" rx="22" fill="#0f0d09" opacity="0.9"/>
+    <text x="18" y="28" fill="#fff4dc" font-size="16" font-weight="800" font-family="Nunito, Arial">Bamboo Moss</text>
+    <g transform="translate(64,48)">
+      <rect width="96" height="128" rx="14" fill="url(#g52020)" stroke="#58772b" stroke-width="1.4"/>
+      <path d="M42 17c4-4 8-4 12 0" fill="none" stroke="#b6f36b" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M36 11c8-7 16-7 24 0" fill="none" stroke="#b6f36b" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <circle cx="48" cy="22" r="2" fill="#b6f36b"/>
+      <text x="48" y="58" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Nunito, Arial">3 744</text>
+      <text x="48" y="82" text-anchor="middle" fill="#fff4dc" opacity=".78" font-size="12" font-weight="800" font-family="Nunito, Arial">Онлайн</text>
+      <rect x="0" y="94" width="44" height="34" rx="9" fill="#d7f073"/>
+      <rect x="52" y="94" width="44" height="34" rx="9" fill="#192412"/>
+      <path d="M16 107l4 6 4-8 5 8 4-6v12H16z" fill="none" stroke="#1d2a0e" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="65" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="65" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+    </g>
+  </g>
+  <g transform="translate(20,270)">
+    <rect width="220" height="210" rx="22" fill="#0f0d09" opacity="0.9"/>
+    <text x="18" y="28" fill="#fff4dc" font-size="16" font-weight="800" font-family="Nunito, Arial">Caramel Amber</text>
+    <g transform="translate(64,48)">
+      <rect width="96" height="128" rx="14" fill="url(#g20270)" stroke="#a86122" stroke-width="1.4"/>
+      <path d="M42 17c4-4 8-4 12 0" fill="none" stroke="#ffdf8b" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M36 11c8-7 16-7 24 0" fill="none" stroke="#ffdf8b" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <circle cx="48" cy="22" r="2" fill="#ffdf8b"/>
+      <text x="48" y="58" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Nunito, Arial">3 744</text>
+      <text x="48" y="82" text-anchor="middle" fill="#fff4dc" opacity=".78" font-size="12" font-weight="800" font-family="Nunito, Arial">Онлайн</text>
+      <rect x="0" y="94" width="44" height="34" rx="9" fill="#ff9b35"/>
+      <rect x="52" y="94" width="44" height="34" rx="9" fill="#2f1a10"/>
+      <path d="M16 107l4 6 4-8 5 8 4-6v12H16z" fill="none" stroke="#2b1204" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="65" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="65" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+    </g>
+  </g>
+  <g transform="translate(270,270)">
+    <rect width="220" height="210" rx="22" fill="#0f0d09" opacity="0.9"/>
+    <text x="18" y="28" fill="#fff4dc" font-size="16" font-weight="800" font-family="Nunito, Arial">Ivory Accent</text>
+    <g transform="translate(64,48)">
+      <rect width="96" height="128" rx="14" fill="url(#g270270)" stroke="#5d523e" stroke-width="1.4"/>
+      <path d="M42 17c4-4 8-4 12 0" fill="none" stroke="#fff1bd" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M36 11c8-7 16-7 24 0" fill="none" stroke="#fff1bd" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <circle cx="48" cy="22" r="2" fill="#fff1bd"/>
+      <text x="48" y="58" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Nunito, Arial">3 744</text>
+      <text x="48" y="82" text-anchor="middle" fill="#fff4dc" opacity=".78" font-size="12" font-weight="800" font-family="Nunito, Arial">Онлайн</text>
+      <rect x="0" y="94" width="44" height="34" rx="9" fill="#fff0b2"/>
+      <rect x="52" y="94" width="44" height="34" rx="9" fill="#262318"/>
+      <path d="M16 107l4 6 4-8 5 8 4-6v12H16z" fill="none" stroke="#2a2111" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="65" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="65" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+    </g>
+  </g>
+  <g transform="translate(520,270)">
+    <rect width="220" height="210" rx="22" fill="#0f0d09" opacity="0.9"/>
+    <text x="18" y="28" fill="#fff4dc" font-size="16" font-weight="800" font-family="Nunito, Arial">Dark Olive</text>
+    <g transform="translate(64,48)">
+      <rect width="96" height="128" rx="14" fill="url(#g520270)" stroke="#3f512a" stroke-width="1.4"/>
+      <path d="M42 17c4-4 8-4 12 0" fill="none" stroke="#9df35e" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M36 11c8-7 16-7 24 0" fill="none" stroke="#9df35e" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <circle cx="48" cy="22" r="2" fill="#9df35e"/>
+      <text x="48" y="58" text-anchor="middle" fill="#fff" font-size="18" font-weight="900" font-family="Nunito, Arial">3 744</text>
+      <text x="48" y="82" text-anchor="middle" fill="#fff4dc" opacity=".78" font-size="12" font-weight="800" font-family="Nunito, Arial">Онлайн</text>
+      <rect x="0" y="94" width="44" height="34" rx="9" fill="#eeb83b"/>
+      <rect x="52" y="94" width="44" height="34" rx="9" fill="#181d12"/>
+      <path d="M16 107l4 6 4-8 5 8 4-6v12H16z" fill="none" stroke="#211706" stroke-width="2" stroke-linejoin="round"/>
+      <rect x="65" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="106" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="65" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+      <rect x="77" y="118" width="6" height="6" rx="1" fill="none" stroke="#b8c4ff" stroke-width="1.8"/>
+    </g>
+  </g></svg>

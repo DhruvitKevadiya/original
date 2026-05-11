@@ -1,0 +1,307 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #11100c;
+  --panel: #211d14;
+  --panel-2: #302818;
+  --gold: #eeb83b;
+  --orange: #f27f2e;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #080b14;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: #080b14;
+  background:
+    radial-gradient(circle at 48% 18%, rgba(77, 92, 140, 0.09), transparent 34rem),
+    radial-gradient(circle at 74% 42%, rgba(88, 70, 130, 0.045), transparent 30rem),
+    radial-gradient(circle at 18% 76%, rgba(255, 145, 74, 0.035), transparent 26rem),
+    radial-gradient(circle at 50% 96%, rgba(69, 84, 125, 0.07), transparent 36rem),
+    linear-gradient(180deg, #0d1019 0%, #090c14 48%, #070910 100%);
+  color: #fff4dc;
+  font-family: var(--font-display), ui-rounded, system-ui, sans-serif;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.upgrade-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 110, 0.28) transparent;
+}
+
+.upgrade-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.upgrade-scroll::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: transparent;
+}
+
+.upgrade-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(255, 215, 110, 0.28);
+}
+
+.upgrade-scroll::-webkit-scrollbar-button:vertical:start,
+.upgrade-scroll::-webkit-scrollbar-button:vertical:end {
+  display: block;
+  height: 150px;
+  background: transparent;
+}
+
+.coin {
+  display: inline-block;
+  width: 1.15rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  background: url("/icons/casego-coin-ui.png") center / contain no-repeat;
+  filter: drop-shadow(0 2px 6px rgba(255, 184, 59, 0.2));
+  transform: translateY(0.02rem);
+}
+
+.header-wallet .coin {
+  width: 1.45rem;
+  height: 1.25rem;
+  filter: drop-shadow(0 3px 8px rgba(255, 184, 59, 0.28));
+}
+
+.case-art {
+  text-shadow: 0 16px 24px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(0 20px 24px rgba(55, 20, 2, 0.38));
+}
+
+.case-sprite {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.38));
+}
+
+.case-sprite img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.live-item-sprite {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.2);
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.34));
+}
+
+.live-item-sprite img {
+  display: block;
+  max-width: none;
+  object-fit: cover;
+  transform-origin: top left;
+}
+
+.live-marquee {
+  animation: live-marquee 42s linear infinite;
+}
+
+@keyframes live-marquee {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.live-drop-insert {
+  animation: live-drop-insert 4.2s cubic-bezier(0.18, 0.92, 0.2, 1) infinite;
+  transform-origin: center;
+}
+
+@keyframes live-drop-insert {
+  0% {
+    transform: translateY(-22px) scale(0.78) rotate(-5deg);
+    filter: brightness(1.28);
+  }
+
+  4% {
+    transform: translateY(0) scale(1.12) rotate(3deg);
+    filter: brightness(1.28);
+  }
+
+  7% {
+    transform: translateX(-4px) translateY(-2px) scale(1.06) rotate(-2.5deg);
+    filter: brightness(1.18);
+  }
+
+  10% {
+    transform: translateX(4px) translateY(1px) scale(1.04) rotate(1.5deg);
+  }
+
+  13% {
+    transform: translateX(-2px) translateY(0) scale(1.01) rotate(-0.8deg);
+  }
+
+  18% {
+    transform: translateX(0) translateY(0) scale(1) rotate(0);
+    filter: brightness(1);
+  }
+
+  100% {
+    transform: translateX(0) translateY(0) scale(1) rotate(0);
+    filter: brightness(1);
+  }
+}
+
+@keyframes upgrade-wheel-spin {
+  from {
+    transform: rotate(0deg) scale(1.04);
+  }
+
+  to {
+    transform: rotate(360deg) scale(1.04);
+  }
+}
+
+@keyframes upgrade-wheel-slow {
+  0% {
+    transform: rotate(0deg) scale(1.01);
+  }
+
+  70% {
+    transform: rotate(58deg) scale(1.01);
+  }
+
+  100% {
+    transform: rotate(72deg) scale(1.01);
+  }
+}
+
+.hub-board::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent 38%, rgba(0,0,0,0.14));
+}
+
+.case-sprite {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.38));
+}
+
+.case-sprite img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hub-board::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), transparent 38%, rgba(0,0,0,0.14));
+}
+
+.panda-mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #f2f5ff, #aeb8d8 58%, #606b92);
+  box-shadow: 0 18px 38px rgba(77, 92, 140, 0.18), inset 0 1px 0 rgba(255,255,255,0.34);
+  transition: background 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+}
+
+.group\/logo:hover .panda-mark {
+  background: linear-gradient(145deg, #ffffff, #c6d0ec 58%, #7884ab);
+  box-shadow: 0 14px 30px rgba(77, 92, 140, 0.18), inset 0 1px 0 rgba(255,255,255,0.32);
+}
+
+.footer-panda-mark {
+  background: linear-gradient(145deg, #eef3ff, #aeb8d8 56%, #606b92);
+  box-shadow: 0 18px 38px rgba(77, 92, 140, 0.18), inset 0 1px 0 rgba(255,255,255,0.34);
+}
+
+.group\/logo:hover .footer-panda-mark {
+  background: linear-gradient(145deg, #f8faff, #c2c9df 56%, #727ca0);
+  box-shadow: 0 14px 30px rgba(77, 92, 140, 0.2), inset 0 1px 0 rgba(255,255,255,0.32);
+}
+
+.panda-mark::before,
+.panda-mark::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  width: 10px;
+  height: 14px;
+  border-radius: 999px;
+  background: #18140e;
+}
+
+.panda-mark::before {
+  left: 12px;
+  transform: rotate(14deg);
+}
+
+.panda-mark::after {
+  right: 12px;
+  transform: rotate(-14deg);
+}
+
+.panda-mark span {
+  position: relative;
+  z-index: 1;
+  margin-top: 14px;
+  width: 7px;
+  height: 5px;
+  border-radius: 50%;
+  background: #18140e;
+}
+
+.panda-mark,
+.footer-panda-mark {
+  filter: saturate(0.82) hue-rotate(190deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
