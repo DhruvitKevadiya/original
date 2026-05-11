@@ -1,27 +1,30 @@
 import { rouletteItems } from "@/data/mock";
 
 const rarityTone = {
-  consumer: "from-[#16252a] to-[#10181c]",
-  industrial: "from-[#15313a] to-[#10191d]",
-  milSpec: "from-[#1e1d4a] to-[#141126]",
-  restricted: "from-[#3a1640] to-[#1d101f]",
-  classified: "from-[#4b1531] to-[#211018]",
-  covert: "from-[#4c1b13] to-[#20100c]",
-  gold: "from-[#5a3b12] to-[#21170d]",
+  consumer: "from-[#2a3a42] to-[#1a252c]",
+  industrial: "from-[#2a414a] to-[#1a2a32]",
+  milSpec: "from-[#3a2d5a] to-[#241836]",
+  restricted: "from-[#4a2650] to-[#2d162f]",
+  classified: "from-[#5b2441] to-[#321628]",
+  covert: "from-[#5c2d23] to-[#30181c]",
+  gold: "from-[#6a4b22] to-[#31241d]",
 };
 
 const rarityAccent = {
-  consumer: "bg-[#6f8790]",
-  industrial: "bg-[#5aa6b6]",
-  milSpec: "bg-[#6f66d6]",
-  restricted: "bg-[#b15ac3]",
-  classified: "bg-[#d45a8c]",
-  covert: "bg-[#df6b42]",
-  gold: "bg-honey-300",
+  consumer: "bg-[#8fa8b0]",
+  industrial: "bg-[#7ac6d6]",
+  milSpec: "bg-[#8f86f6]",
+  restricted: "bg-[#d17ae3]",
+  classified: "bg-[#f47aac]",
+  covert: "bg-[#ff8b62]",
+  gold: "bg-[#ffd35a]",
 };
 
 export function CaseContents() {
-  const items = Array.from({ length: 30 }, (_, index) => rouletteItems[index % rouletteItems.length]);
+  const items = Array.from(
+    { length: 30 },
+    (_, index) => rouletteItems[index % rouletteItems.length],
+  );
 
   return (
     <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
@@ -30,7 +33,9 @@ export function CaseContents() {
           key={`${item.id}-content-${index}`}
           className={`group relative h-[176px] overflow-hidden rounded-[24px] bg-gradient-to-b ${rarityTone[item.rarity]} p-3 shadow-soft`}
         >
-          <span className={`absolute left-1/2 top-0 h-1 w-12 -translate-x-1/2 rounded-b-full ${rarityAccent[item.rarity]}`} />
+          <span
+            className={`absolute left-1/2 top-0 h-1 w-12 -translate-x-1/2 rounded-b-full ${rarityAccent[item.rarity]}`}
+          />
           <img
             src="/textures/paw-mark.png"
             alt=""
@@ -45,7 +50,9 @@ export function CaseContents() {
               />
             </div>
             <div className="w-full text-center">
-              <p className="truncate text-xs font-black text-white sm:text-sm">{item.name}</p>
+              <p className="truncate text-xs font-black text-white sm:text-sm">
+                {item.name}
+              </p>
             </div>
           </div>
         </article>

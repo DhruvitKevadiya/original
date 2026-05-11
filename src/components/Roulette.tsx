@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 import { rouletteItems, type CaseItem, type DropItem } from "@/data/mock";
-import { CoinPrice } from "./CoinPrice";
+import { motion } from "framer-motion";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CaseArt } from "./CaseArt";
+import { CoinPrice } from "./CoinPrice";
 
 const openCounts = [1, 2, 3, 4, 5];
 const SINGLE_STRIP_COUNT = 72;
@@ -13,13 +13,13 @@ const SPIN_DURATION_MS = 5600;
 const FAST_SPIN_DURATION_MS = 1850;
 
 const rarityTone = {
-  consumer: "from-[#16252a] to-[#10181c]",
-  industrial: "from-[#15313a] to-[#10191d]",
-  milSpec: "from-[#1e1d4a] to-[#141126]",
-  restricted: "from-[#3a1640] to-[#1d101f]",
-  classified: "from-[#4b1531] to-[#211018]",
-  covert: "from-[#4c1b13] to-[#20100c]",
-  gold: "from-[#4a3615] to-[#1c1308]",
+  consumer: "from-[#2a3a42] to-[#1a252c]",
+  industrial: "from-[#2a414a] to-[#1a2a32]",
+  milSpec: "from-[#3a2d5a] to-[#241836]",
+  restricted: "from-[#4a2650] to-[#2d162f]",
+  classified: "from-[#5b2441] to-[#321628]",
+  covert: "from-[#5c2d23] to-[#30181c]",
+  gold: "from-[#6a4b22] to-[#31241d]",
 };
 
 function buildDisplayItems(
@@ -29,7 +29,8 @@ function buildDisplayItems(
   targetIndex = SINGLE_WIN_INDEX,
 ) {
   const items = Array.from({ length: count }, (_, index) => {
-    const poolIndex = (seed * 11 + index * 7 + Math.floor(index / 3)) % rouletteItems.length;
+    const poolIndex =
+      (seed * 11 + index * 7 + Math.floor(index / 3)) % rouletteItems.length;
     return rouletteItems[poolIndex];
   });
 
@@ -38,7 +39,10 @@ function buildDisplayItems(
   return items;
 }
 
-function normalizeSpinResult(result: DropItem | DropItem[], fallbackCount: number) {
+function normalizeSpinResult(
+  result: DropItem | DropItem[],
+  fallbackCount: number,
+) {
   if (Array.isArray(result)) {
     return result.slice(0, fallbackCount);
   }
@@ -47,7 +51,10 @@ function normalizeSpinResult(result: DropItem | DropItem[], fallbackCount: numbe
 }
 
 function createFallbackResult(count: number, seed: number) {
-  return Array.from({ length: count }, (_, index) => rouletteItems[(seed + index * 3) % rouletteItems.length]);
+  return Array.from(
+    { length: count },
+    (_, index) => rouletteItems[(seed + index * 3) % rouletteItems.length],
+  );
 }
 
 function waitForNextPaint() {
@@ -71,21 +78,33 @@ function MultiOpenDisplay({
   const columnCount = items.length;
 
   return (
-    <div className="flex h-[255px] items-center justify-center px-1.5">
-      <div className="grid w-full gap-1" style={{ gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))` }}>
+    <div className="flex h-[252px] items-center justify-center px-1.5">
+      <div
+        className="grid w-full gap-1"
+        style={{
+          gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
+        }}
+      >
         {items.map((item, index) => {
           const strip = [item, ...rouletteItems.slice(index, index + 5)];
 
           return (
-            <div
+            <motion.div
               key={`${item.id}-multi-${index}`}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94],
+              }}
               className="relative h-[252px] min-w-0 overflow-hidden rounded-[24px] border border-[#242838] bg-gradient-to-b from-[#171a28] to-[#10131d] shadow-soft"
             >
               <motion.div
                 initial={{ y: -slotHeight * (strip.length - 1) }}
                 animate={{ y: 0 }}
                 transition={{
-                  duration: isSpinning ? 1.45 + index * 0.12 : 0,
+                  duration: isSpinning ? 1.8 + index * 0.15 : 0,
                   ease: [0.16, 0.84, 0.22, 1],
                 }}
               >
@@ -105,15 +124,20 @@ function MultiOpenDisplay({
                       className="relative h-[156px] w-[156px] object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.38)]"
                     />
                     <div className="relative mt-1 text-center">
-                      <p className="text-sm font-black text-white">{stripItem.name}</p>
+                      <p className="text-sm font-black text-white">
+                        {stripItem.name}
+                      </p>
                       {showPrices ? (
-                        <CoinPrice value={stripItem.price} className="mt-1 justify-center text-xs font-black text-[#ffd35a]" />
+                        <CoinPrice
+                          value={stripItem.price}
+                          className="mt-1 justify-center text-xs font-black text-[#ffd35a]"
+                        />
                       ) : null}
                     </div>
                   </div>
                 ))}
               </motion.div>
-            </div>
+            </motion.div>
           );
         })}
       </div>
@@ -123,11 +147,20 @@ function MultiOpenDisplay({
 
 type RouletteProps = {
   caseItem: CaseItem;
-  frameVariant?: "current" | "rail" | "double" | "glass" | "split" | "dock" | "shelf";
+  frameVariant?:
+    | "current"
+    | "rail"
+    | "double"
+    | "glass"
+    | "split"
+    | "dock"
+    | "shelf";
   winningItem?: DropItem;
   winningItems?: DropItem[];
   onFinish?: (items: DropItem[]) => void;
-  onSpinRequest?: (count: number) => Promise<DropItem | DropItem[]> | DropItem | DropItem[];
+  onSpinRequest?: (
+    count: number,
+  ) => Promise<DropItem | DropItem[]> | DropItem | DropItem[];
 };
 
 const frameVariants = {
@@ -248,18 +281,28 @@ export function Roulette({
   const [winners, setWinners] = useState<DropItem[]>([rouletteItems[2]]);
   const [openCount, setOpenCount] = useState(1);
   const [isFastOpen, setIsFastOpen] = useState(false);
-  const [displayItems, setDisplayItems] = useState<DropItem[]>(() => buildDisplayItems(rouletteItems[2], 1));
+  const [displayItems, setDisplayItems] = useState<DropItem[]>(() =>
+    buildDisplayItems(rouletteItems[2], 1),
+  );
   const [translateX, setTranslateX] = useState(0);
   const [transitionValue, setTransitionValue] = useState("none");
   const showMultiOpen = openCount > 1 && (isSpinning || hasResult);
   const showPrices = hasResult && !isSpinning;
   const sellValue = winners.reduce((sum, item) => sum + item.price, 0);
   const frame = frameVariants[frameVariant];
-  const detachedControls = frameVariant === "split" || frameVariant === "dock" || frameVariant === "shelf";
+  const detachedControls =
+    frameVariant === "split" ||
+    frameVariant === "dock" ||
+    frameVariant === "shelf";
   const viewportRef = useRef<HTMLDivElement | null>(null);
   const stripRef = useRef<HTMLDivElement | null>(null);
   const sampleCardRef = useRef<HTMLDivElement | null>(null);
-  const latestMetricsRef = useRef({ containerWidth: 0, cardWidth: 0, gap: 0, stripPaddingLeft: 0 });
+  const latestMetricsRef = useRef({
+    containerWidth: 0,
+    cardWidth: 0,
+    gap: 0,
+    stripPaddingLeft: 0,
+  });
   const transitionRunRef = useRef(0);
   const finishPayloadRef = useRef<DropItem[] | null>(null);
   const spinSequenceRef = useRef(0);
@@ -279,8 +322,11 @@ export function Roulette({
       latestMetricsRef.current = {
         containerWidth: viewportRect.width,
         cardWidth: sampleRect.width,
-        gap: Number.parseFloat(stripStyles.gap || stripStyles.columnGap || "0") || 0,
-        stripPaddingLeft: Number.parseFloat(stripStyles.paddingLeft || "0") || 0,
+        gap:
+          Number.parseFloat(stripStyles.gap || stripStyles.columnGap || "0") ||
+          0,
+        stripPaddingLeft:
+          Number.parseFloat(stripStyles.paddingLeft || "0") || 0,
       };
     };
 
@@ -304,16 +350,19 @@ export function Roulette({
     if (!isSpinning || showMultiOpen) return;
 
     const currentRun = transitionRunRef.current;
-    const timeout = window.setTimeout(() => {
-      if (transitionRunRef.current !== currentRun) return;
+    const timeout = window.setTimeout(
+      () => {
+        if (transitionRunRef.current !== currentRun) return;
 
-      setIsSpinning(false);
-      setHasResult(true);
+        setIsSpinning(false);
+        setHasResult(true);
 
-      if (finishPayloadRef.current) {
-        onFinish?.(finishPayloadRef.current);
-      }
-    }, (isFastOpen ? FAST_SPIN_DURATION_MS : SPIN_DURATION_MS) + 120);
+        if (finishPayloadRef.current) {
+          onFinish?.(finishPayloadRef.current);
+        }
+      },
+      (isFastOpen ? FAST_SPIN_DURATION_MS : SPIN_DURATION_MS) + 200,
+    );
 
     return () => window.clearTimeout(timeout);
   }, [isFastOpen, isSpinning, onFinish, showMultiOpen]);
@@ -332,7 +381,9 @@ export function Roulette({
   const controlsContent = (
     <div
       className={
-        detachedControls ? "flex min-h-[64px] items-center justify-center" : "mt-5 flex min-h-[64px] items-center justify-center"
+        detachedControls
+          ? "flex min-h-[64px] items-center justify-center"
+          : "mt-5 flex min-h-[64px] items-center justify-center"
       }
     >
       {hasResult ? (
@@ -352,7 +403,10 @@ export function Roulette({
             className="inline-flex h-[52px] items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffb35c] to-[#ff7e3f] px-5 text-sm font-black text-[#14111a] shadow-[0_18px_34px_rgba(255,126,63,0.22)] transition hover:-translate-y-0.5 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
           >
             Продать
-            <CoinPrice value={openCount > 1 ? sellValue : winner.price} className="ml-2" />
+            <CoinPrice
+              value={openCount > 1 ? sellValue : winner.price}
+              className="ml-2"
+            />
           </button>
           <div className="flex items-center justify-center">
             <button className="h-[46px] w-full rounded-[19px] bg-[#171a28] px-5 text-sm font-black text-[#dfe6ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition hover:-translate-y-0.5 hover:bg-[#20273a]">
@@ -436,11 +490,13 @@ export function Roulette({
   }
 
   function getTargetTranslateX(targetIndex: number) {
-    const { cardWidth, containerWidth, gap, stripPaddingLeft } = latestMetricsRef.current;
+    const { cardWidth, containerWidth, gap, stripPaddingLeft } =
+      latestMetricsRef.current;
 
     if (!cardWidth || !containerWidth) return 0;
 
-    const winningCardCenter = stripPaddingLeft + targetIndex * (cardWidth + gap) + cardWidth / 2;
+    const winningCardCenter =
+      stripPaddingLeft + targetIndex * (cardWidth + gap) + cardWidth / 2;
     return Math.max(0, winningCardCenter - containerWidth / 2);
   }
 
@@ -458,14 +514,19 @@ export function Roulette({
     finishPayloadRef.current = nextWinners;
 
     if (openCount > 1) {
-      await new Promise((resolve) => window.setTimeout(resolve, isFastOpen ? 900 : 1800));
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, isFastOpen ? 900 : 1800),
+      );
       setIsSpinning(false);
       setHasResult(true);
       onFinish?.(nextWinners);
       return;
     }
 
-    const nextStrip = buildDisplayItems(nextWinners[0], spinSequenceRef.current);
+    const nextStrip = buildDisplayItems(
+      nextWinners[0],
+      spinSequenceRef.current,
+    );
     transitionRunRef.current += 1;
     setTransitionValue("none");
     setTranslateX(0);
@@ -473,9 +534,7 @@ export function Roulette({
     await waitForNextPaint();
 
     const targetTranslate = getTargetTranslateX(SINGLE_WIN_INDEX);
-    const duration = isFastOpen ? FAST_SPIN_DURATION_MS : SPIN_DURATION_MS;
-
-    setTransitionValue(`transform ${duration}ms cubic-bezier(0.08, 0.78, 0.16, 1)`);
+    setTransitionValue("spin");
     setTranslateX(-targetTranslate);
   }
 
@@ -487,42 +546,90 @@ export function Roulette({
     <div className={frame.wrapper}>
       <section className={frame.section}>
         <div ref={viewportRef} className={frame.viewport}>
-          {frame.viewportOverlay ? <div className={frame.viewportOverlay} /> : null}
+          {frame.viewportOverlay ? (
+            <div className={frame.viewportOverlay} />
+          ) : null}
           {showCasePreview ? (
             <motion.div
               initial={false}
               animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -20 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
               className="pointer-events-none absolute inset-0 z-30 grid place-items-center bg-[radial-gradient(circle_at_center,rgba(255,226,138,0.14),rgba(23,26,20,0.64)_48%,rgba(23,26,20,0.86)_100%)]"
             >
               <div className="relative grid place-items-center">
                 <div className="absolute h-48 w-48 rounded-full bg-[#ffe28a]/12 blur-3xl" />
-                <CaseArt index={caseItem.artIndex} className="relative h-60 w-60" />
+                <motion.div
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <CaseArt
+                    index={caseItem.artIndex}
+                    className="relative h-60 w-60"
+                  />
+                </motion.div>
               </div>
             </motion.div>
           ) : null}
 
           {showMultiOpen ? (
-            <MultiOpenDisplay items={winners} isSpinning={isSpinning} showPrices={showPrices} />
+            <MultiOpenDisplay
+              items={winners}
+              isSpinning={isSpinning}
+              showPrices={showPrices}
+            />
           ) : (
             <>
               <div className="pointer-events-none absolute inset-y-0 left-1/2 z-20 w-1 -translate-x-1/2 rounded-full bg-gradient-to-b from-[#ffe28a] to-[#d9a83d] shadow-[0_0_22px_rgba(217,168,61,0.28)]" />
               <div className={frame.edgeFade} />
               <div className={frame.edgeFadeRight} />
-              <div
+              <motion.div
                 ref={stripRef}
-                className="flex gap-1 px-1.5 will-change-transform"
-                onTransitionEnd={(event) => {
-                  if (event.propertyName === "transform") {
+                className="flex gap-1 px-1.5"
+                initial={false}
+                animate={{ x: translateX }}
+                transition={{
+                  duration:
+                    transitionValue !== "none"
+                      ? isFastOpen
+                        ? FAST_SPIN_DURATION_MS / 1000
+                        : SPIN_DURATION_MS / 1000
+                      : 0,
+                  ease: [0.08, 0.78, 0.16, 1],
+                  type: "tween",
+                }}
+                onAnimationComplete={() => {
+                  if (transitionValue !== "none") {
                     completeSingleSpin();
                   }
                 }}
-                style={{ transform: `translateX(${translateX}px)`, transition: transitionValue }}
               >
                 {displayItems.map((item, index) => (
-                  <div
+                  <motion.div
                     ref={index === 0 ? sampleCardRef : null}
                     key={`${item.id}-${index}`}
                     className={`relative grid h-[252px] min-w-0 flex-none basis-[calc((100%-20px)/6)] place-items-center overflow-hidden rounded-[24px] border border-transparent bg-gradient-to-b ${rarityTone[item.rarity]} p-2.5 shadow-soft`}
+                    animate={
+                      hasResult && index === SINGLE_WIN_INDEX
+                        ? {
+                            scale: [1, 1.08, 1.02, 1],
+                            boxShadow: [
+                              "0 0 0 rgba(255, 226, 138, 0)",
+                              "0 0 40px rgba(255, 226, 138, 0.6)",
+                              "0 0 25px rgba(255, 226, 138, 0.4)",
+                              "0 0 15px rgba(255, 226, 138, 0.2)",
+                            ],
+                          }
+                        : {}
+                    }
+                    transition={{
+                      duration: 1.2,
+                      ease: [0.25, 0.46, 0.45, 0.94],
+                    }}
                   >
                     <img
                       src="/textures/paw-mark.png"
@@ -535,14 +642,19 @@ export function Roulette({
                       className="relative h-[156px] w-[156px] object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.38)]"
                     />
                     <div className="relative mt-1 text-center">
-                      <p className="text-sm font-black text-white">{item.name}</p>
+                      <p className="text-sm font-black text-white">
+                        {item.name}
+                      </p>
                       {showPrices ? (
-                        <CoinPrice value={item.price} className="mt-1 justify-center text-xs font-black text-[#ffd35a]" />
+                        <CoinPrice
+                          value={item.price}
+                          className="mt-1 justify-center text-xs font-black text-[#ffd35a]"
+                        />
                       ) : null}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </>
           )}
         </div>
@@ -550,7 +662,9 @@ export function Roulette({
         {!detachedControls ? controlsContent : null}
       </section>
 
-      {detachedControls ? <div className={frame.controlsShell}>{controlsContent}</div> : null}
+      {detachedControls ? (
+        <div className={frame.controlsShell}>{controlsContent}</div>
+      ) : null}
     </div>
   );
 }
