@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Flame, Sparkles } from "lucide-react";
 import type { CaseItem } from "@/data/mock";
 import { CoinPrice } from "./CoinPrice";
 import { CaseArt } from "./CaseArt";
@@ -11,6 +12,14 @@ const toneMap = {
   amber: "from-[#f3f6ff] via-[#b7c3ea] to-[#314063]",
   green: "from-[#d8e0ff] via-[#6f7ea8] to-[#212a45]",
   ruby: "from-[#ffc077] via-[#c54b25] to-[#4d1710]",
+};
+
+const toneGlow: Record<CaseItem["tone"], string> = {
+  gold: "rgba(255,186,82,0.55)",
+  orange: "rgba(255,126,63,0.55)",
+  amber: "rgba(255,206,110,0.5)",
+  green: "rgba(120,150,255,0.42)",
+  ruby: "rgba(255,90,80,0.55)",
 };
 
 type CaseCardProps = {
@@ -58,32 +67,44 @@ export function CaseCard({ item, compact = false }: CaseCardProps) {
     <div className="group flex flex-col items-center">
       <motion.a
         href={`/case/${item.id}`}
-        whileHover={{ y: -8, scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        transition={{ type: "spring", stiffness: 280, damping: 22 }}
-        className="relative flex h-[260px] w-full items-end justify-center overflow-visible rounded-[28px] border border-transparent"
+        whileHover={{ y: -10 }}
+        whileTap={{ scale: 0.97 }}
+        transition={{ type: "spring", stiffness: 320, damping: 22 }}
+        className="relative flex h-[224px] w-full items-end justify-center overflow-visible"
       >
-        <div className={`absolute inset-x-8 bottom-2 h-28 rounded-full bg-gradient-to-br ${toneMap[item.tone]} opacity-35 blur-2xl`} />
-        <div className="absolute inset-x-10 bottom-0 h-12 rounded-full bg-black/34 blur-xl" />
+        <div
+          className="pointer-events-none absolute inset-x-4 bottom-3 h-32 rounded-[50%] opacity-55 blur-2xl transition duration-300 group-hover:scale-110 group-hover:opacity-90"
+          style={{
+            background: `radial-gradient(ellipse at center, ${toneGlow[item.tone]}, transparent 65%)`,
+          }}
+        />
+        <div className="pointer-events-none absolute inset-x-12 bottom-1 h-8 rounded-full bg-black/60 blur-xl transition duration-300 group-hover:translate-y-1" />
 
-        {item.tag && (
-          <span className="absolute right-5 top-3 z-10 rounded-full bg-cocoa-950/72 px-3 py-1 text-[10px] font-black uppercase text-[#dfe6ff] shadow-insetWarm">
-            {item.tag}
+        {item.tag === "hot" ? (
+          <span className="absolute left-2 top-1 z-10 inline-flex items-center gap-1 rounded-[8px] border border-[#ff6a2a]/40 bg-[#1a0e08]/90 px-2 py-[3px] text-[10px] font-black uppercase tracking-[0.16em] text-[#ffb368] shadow-[0_4px_12px_rgba(255,106,42,0.25)]">
+            <Flame size={11} strokeWidth={2.6} className="flame-flicker text-[#ff8a30]" />
+            Trending
           </span>
-        )}
+        ) : item.tag === "new" ? (
+          <span className="absolute left-2 top-1 z-10 inline-flex items-center gap-1 rounded-[8px] border border-[#42ff8b]/35 bg-[#06140e]/90 px-2 py-[3px] text-[10px] font-black uppercase tracking-[0.16em] text-[#7cf0a9] shadow-[0_4px_12px_rgba(66,255,139,0.18)]">
+            <Sparkles size={11} strokeWidth={2.6} />
+            New
+          </span>
+        ) : null}
 
-        <div className="relative grid place-items-center">
-          <CaseArt index={item.artIndex} className="h-[280px] w-[280px]" />
-        </div>
+        <CaseArt
+          index={item.artIndex}
+          className="relative h-[240px] w-[240px] transition duration-300 ease-out group-hover:-translate-y-1"
+        />
       </motion.a>
 
-      <div className="mt-3 min-w-0 px-2 text-center">
-        <h3 className="truncate text-lg font-black leading-tight text-white">{item.name}</h3>
-      </div>
+      <h3 className="mt-2 max-w-full truncate px-2 text-center text-[15px] font-black leading-tight text-white sm:text-base">
+        {item.name}
+      </h3>
 
       <a
         href={`/case/${item.id}`}
-        className="mt-2 inline-flex items-center justify-center text-sm font-black text-[#ffe28a] drop-shadow-[0_4px_12px_rgba(217,168,61,0.16)] transition hover:-translate-y-0.5 hover:text-[#fff0be]"
+        className="mt-2.5 inline-flex h-[34px] items-center gap-1.5 rounded-[12px] border border-[#222b41] bg-[linear-gradient(180deg,#0e1320,#070a12)] px-4 text-[13px] font-black text-[#ffe28a] shadow-[inset_0_1px_0_rgba(255,255,255,0.04),0_6px_16px_rgba(0,0,0,0.36)] transition duration-200 hover:-translate-y-0.5 hover:border-[#ffe28a]/35 hover:text-[#fff0be]"
       >
         <CoinPrice value={item.price} />
       </a>

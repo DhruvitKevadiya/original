@@ -31,7 +31,7 @@ export function Header() {
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       className={`sticky top-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? "bg-[linear-gradient(180deg,rgba(29,30,28,0.96),rgba(18,18,17,0.92))] shadow-[0_18px_38px_rgba(0,0,0,0.34)] backdrop-blur-md"
+          ? "bg-[linear-gradient(180deg,rgba(7,9,15,0.94),rgba(5,7,13,0.88))] shadow-[0_18px_38px_rgba(0,0,0,0.45)] backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
@@ -44,8 +44,35 @@ export function Header() {
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-[radial-gradient(circle,rgba(174,184,216,0.38)_0%,rgba(174,184,216,0.1)_42%,transparent_72%)]" />
         )}
 
-        <a href="/" className="group/logo flex h-12 w-[186px] shrink-0 items-center">
-          <span className="text-[31px] font-black leading-none tracking-[-0.01em] transition duration-300 ease-out group-hover/logo:-translate-y-0.5 group-hover/logo:scale-[1.02]">
+        <a href="/" className="group/logo flex h-12 shrink-0 items-center gap-2.5">
+          <svg
+            viewBox="0 0 32 32"
+            fill="none"
+            aria-hidden="true"
+            className="h-9 w-9 shrink-0 transition duration-300 ease-out group-hover/logo:-translate-y-0.5 group-hover/logo:rotate-[6deg]"
+          >
+            <defs>
+              <linearGradient id="brand-bg" x1="0" y1="0" x2="0" y2="32" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stopColor="#1c2335" />
+                <stop offset="1" stopColor="#0a0e18" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M6 1 L26 1 L31 6 L31 26 L26 31 L6 31 L1 26 L1 6 Z"
+              fill="url(#brand-bg)"
+              stroke="#2a3145"
+              strokeWidth="1.4"
+            />
+            <path
+              d="M21.5 10.5 A 7 7 0 1 0 21.5 21.5"
+              stroke="#ffe28a"
+              strokeWidth="2.6"
+              strokeLinecap="round"
+              fill="none"
+            />
+            <circle cx="20.4" cy="16" r="1.8" fill="#ff9a3d" />
+          </svg>
+          <span className="text-[28px] font-black leading-none tracking-[-0.01em] transition duration-300 ease-out group-hover/logo:-translate-y-0.5">
             <span className="text-white transition group-hover/logo:text-[#e5ebff]">Case</span>
             <span className="text-[#ff9a3d] transition group-hover/logo:text-[#ffb35c]">GO</span>
           </span>
@@ -67,7 +94,7 @@ export function Header() {
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
           <a
             href="/deposit"
-            className="header-wallet group/wallet inline-flex h-[44px] items-center overflow-hidden rounded-[18px] bg-[linear-gradient(180deg,#171a28,#10131d)] text-sm font-black text-[#dfe6ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:bg-[#20273a]"
+            className="header-wallet group/wallet inline-flex h-[44px] items-center overflow-hidden rounded-[18px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] text-sm font-black text-[#dfe6ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:border-[#2a3145] hover:bg-[#0f1421]"
           >
             <span className="hidden h-full items-center px-4 sm:inline-flex">
               <CoinPrice value={128450} />
@@ -76,7 +103,7 @@ export function Header() {
               <Plus size={23} strokeWidth={3.2} />
             </span>
           </a>
-          <button className="group/profile hidden h-[44px] items-center gap-3 rounded-[18px] bg-[linear-gradient(180deg,#171a28,#10131d)] px-3 pr-4 text-[#aeb8d8] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:bg-[#20273a] hover:text-[#dfe6ff] sm:inline-flex">
+          <button className="group/profile hidden h-[44px] items-center gap-3 rounded-[18px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] px-3 pr-4 text-[#aeb8d8] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:border-[#2a3145] hover:bg-[#0f1421] hover:text-[#dfe6ff] sm:inline-flex">
             <span className="relative grid h-7 w-7 place-items-center overflow-hidden rounded-full border border-[#ff9a3d]/80 bg-[radial-gradient(circle_at_35%_25%,#ffcf7a,#e96e35_48%,#142033_50%,#0c111d_100%)] shadow-[0_0_18px_rgba(255,126,63,0.18)]">
               <span className="text-[11px] font-black leading-none text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]">CG</span>
             </span>
@@ -85,10 +112,10 @@ export function Header() {
             </span>
             <ChevronDown size={20} strokeWidth={3} className="transition group-hover/profile:translate-y-0.5" />
           </button>
-          <button className="hidden h-[44px] w-[44px] place-items-center rounded-[18px] bg-[linear-gradient(180deg,#171a28,#10131d)] text-[#c8d2f2] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:bg-[#20273a] hover:text-white md:grid">
+          <button className="hidden h-[44px] w-[44px] place-items-center rounded-[18px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] text-[#c8d2f2] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:border-[#2a3145] hover:bg-[#0f1421] hover:text-white md:grid">
             <Bell size={22} strokeWidth={2.5} />
           </button>
-          <button className="hidden h-[44px] w-[44px] place-items-center rounded-[18px] bg-[linear-gradient(180deg,#171a28,#10131d)] text-[#c8d2f2] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:bg-[#20273a] hover:text-white md:grid">
+          <button className="hidden h-[44px] w-[44px] place-items-center rounded-[18px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] text-[#c8d2f2] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)] transition hover:-translate-y-0.5 hover:border-[#2a3145] hover:bg-[#0f1421] hover:text-white md:grid">
             <Settings size={22} strokeWidth={2.5} />
           </button>
         </div>

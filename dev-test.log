@@ -1,0 +1,24 @@
+﻿
+> panda-drop-frontend@1.0.0 dev
+> next dev
+
+node.exe :  ⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" "C:\Users\dhruv\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( ⚠ Port 3000 is...t 3001 instead.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.1.14:3001
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 4s
+ ○ Compiling / ...
+ ✓ Compiled / in 11s (1346 modules)
+ GET / 200 in 12725ms
+ ○ Compiling /case/[id] ...
+ ✓ Compiled /case/[id] in 1190ms (1367 modules)
+ GET /case/honey-bag 200 in 3267ms

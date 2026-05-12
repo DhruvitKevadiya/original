@@ -1,7 +1,7 @@
 "use client";
 
 import { rouletteItems, type CaseItem, type DropItem } from "@/data/mock";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion, useAnimation } from "framer-motion";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CaseArt } from "./CaseArt";
 import { CoinPrice } from "./CoinPrice";
@@ -9,8 +9,8 @@ import { CoinPrice } from "./CoinPrice";
 const openCounts = [1, 2, 3, 4, 5];
 const SINGLE_STRIP_COUNT = 72;
 const SINGLE_WIN_INDEX = 55;
-const SPIN_DURATION_MS = 5600;
-const FAST_SPIN_DURATION_MS = 1850;
+const SPIN_DURATION_MS = 4600;
+const FAST_SPIN_DURATION_MS = 1500;
 
 const rarityTone = {
   consumer: "from-[#2a3a42] to-[#1a252c]",
@@ -80,33 +80,44 @@ function MultiOpenDisplay({
   return (
     <div className="flex h-[252px] items-center justify-center px-1.5">
       <div
-        className="grid w-full gap-1"
+        className="grid w-full gap-1.5"
         style={{
           gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`,
         }}
       >
         {items.map((item, index) => {
           const strip = [item, ...rouletteItems.slice(index, index + 5)];
+          const startY = -slotHeight * (strip.length - 1);
+          const overshootY = 14;
 
           return (
             <motion.div
               key={`${item.id}-multi-${index}`}
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{
-                duration: 0.6,
-                delay: index * 0.1,
+                duration: 0.5,
+                delay: index * 0.08,
                 ease: [0.25, 0.46, 0.45, 0.94],
               }}
-              className="relative h-[252px] min-w-0 overflow-hidden rounded-[24px] border border-[#242838] bg-gradient-to-b from-[#171a28] to-[#10131d] shadow-soft"
+              className="relative h-[252px] min-w-0 overflow-hidden rounded-[20px] border border-[#222b41] bg-[linear-gradient(180deg,#0d1320,#070b13)] shadow-[inset_0_2px_8px_rgba(0,0,0,0.45)]"
             >
               <motion.div
-                initial={{ y: -slotHeight * (strip.length - 1) }}
-                animate={{ y: 0 }}
-                transition={{
-                  duration: isSpinning ? 1.8 + index * 0.15 : 0,
-                  ease: [0.16, 0.84, 0.22, 1],
-                }}
+                initial={{ y: startY }}
+                animate={{ y: isSpinning ? [startY, overshootY, -6, 0] : 0 }}
+                transition={
+                  isSpinning
+                    ? {
+                        duration: 1.7 + index * 0.18,
+                        times: [0, 0.86, 0.94, 1],
+                        ease: [
+                          [0.08, 0.7, 0.18, 1],
+                          [0.25, 0.46, 0.45, 0.94],
+                          [0.4, 0, 0.25, 1],
+                        ],
+                      }
+                    : { duration: 0 }
+                }
               >
                 {strip.map((stripItem, stripIndex) => (
                   <div
@@ -137,6 +148,8 @@ function MultiOpenDisplay({
                   </div>
                 ))}
               </motion.div>
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-8 bg-gradient-to-b from-[#070b13] to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#070b13] to-transparent" />
             </motion.div>
           );
         })}
@@ -195,15 +208,15 @@ const frameVariants = {
     wrapper: "",
     controlsShell: "",
     section:
-      "overflow-hidden rounded-[34px] bg-[linear-gradient(180deg,#1a2234,#0b1018)] p-[9px] pb-5 shadow-[0_28px_62px_rgba(0,0,0,0.3)] sm:pb-6",
+      "roulette-bezel relative overflow-hidden rounded-[24px] p-3 pb-5 sm:pb-6",
     viewport:
-      "relative overflow-hidden rounded-[26px] border border-[#2b3650] bg-[linear-gradient(180deg,#101724,#0b1018)] py-2 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.03),inset_0_1px_0_rgba(255,255,255,0.04)]",
+      "roulette-viewport relative overflow-hidden rounded-[16px] py-2",
     viewportOverlay:
-      "pointer-events-none absolute inset-[8px] rounded-[20px] border border-[#1c2436] shadow-[inset_0_1px_0_rgba(255,255,255,0.025)]",
+      "pointer-events-none absolute inset-x-0 top-0 h-10 bg-[linear-gradient(180deg,rgba(255,226,138,0.05),transparent)]",
     edgeFade:
-      "pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#0b1018] to-transparent",
+      "pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-[#04050a] via-[#04050a]/90 to-transparent",
     edgeFadeRight:
-      "pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#0b1018] to-transparent",
+      "pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-[#04050a] via-[#04050a]/90 to-transparent",
   },
   glass: {
     wrapper: "",
@@ -286,6 +299,8 @@ export function Roulette({
   );
   const [translateX, setTranslateX] = useState(0);
   const [transitionValue, setTransitionValue] = useState("none");
+  const [winFlashId, setWinFlashId] = useState(0);
+  const shakeControls = useAnimation();
   const showMultiOpen = openCount > 1 && (isSpinning || hasResult);
   const showPrices = hasResult && !isSpinning;
   const sellValue = winners.reduce((sum, item) => sum + item.price, 0);
@@ -347,6 +362,19 @@ export function Roulette({
   }, []);
 
   useEffect(() => {
+    if (winFlashId === 0) return;
+    shakeControls.start({
+      x: [0, -4, 4, -3, 3, -1, 1, 0],
+      y: [0, 2, -1, -2, 1, 0, 0, 0],
+      transition: {
+        duration: 0.5,
+        ease: [0.36, 0.07, 0.19, 0.97],
+        times: [0, 0.12, 0.26, 0.4, 0.55, 0.72, 0.88, 1],
+      },
+    });
+  }, [winFlashId, shakeControls]);
+
+  useEffect(() => {
     if (!isSpinning || showMultiOpen) return;
 
     const currentRun = transitionRunRef.current;
@@ -356,6 +384,7 @@ export function Roulette({
 
         setIsSpinning(false);
         setHasResult(true);
+        setWinFlashId((id) => id + 1);
 
         if (finishPayloadRef.current) {
           onFinish?.(finishPayloadRef.current);
@@ -372,6 +401,7 @@ export function Roulette({
 
     setIsSpinning(false);
     setHasResult(true);
+    setWinFlashId((id) => id + 1);
 
     if (finishPayloadRef.current) {
       onFinish?.(finishPayloadRef.current);
@@ -387,20 +417,18 @@ export function Roulette({
       }
     >
       {hasResult ? (
-        <div className="grid w-full max-w-[720px] grid-cols-1 gap-3 sm:grid-cols-3">
-          <div className="flex items-center justify-center">
-            <button
-              onClick={openCase}
-              disabled={isSpinning}
-              className="h-[46px] w-full rounded-[19px] bg-[#171a28] px-5 text-sm font-black text-[#dfe6ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition hover:-translate-y-0.5 hover:text-[#ffe28a] disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              Попробовать еще раз
-            </button>
-          </div>
+        <div className="grid w-full max-w-[720px] grid-cols-1 gap-2.5 sm:grid-cols-3">
+          <button
+            onClick={openCase}
+            disabled={isSpinning}
+            className="h-[44px] rounded-[14px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] px-5 text-[13px] font-black text-[#9aa3bd] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition hover:-translate-y-0.5 hover:border-[#ffe28a]/30 hover:text-[#ffe28a] disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            Попробовать еще раз
+          </button>
           <button
             onClick={sellResult}
             disabled={isSpinning}
-            className="inline-flex h-[52px] items-center justify-center rounded-[20px] bg-gradient-to-b from-[#ffb35c] to-[#ff7e3f] px-5 text-sm font-black text-[#14111a] shadow-[0_18px_34px_rgba(255,126,63,0.22)] transition hover:-translate-y-0.5 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
+            className="bevel-cta inline-flex h-[48px] items-center justify-center bg-gradient-to-b from-[#ffd266] to-[#d9a83d] px-6 text-[13px] font-black uppercase tracking-[0.08em] text-[#201707] shadow-[0_14px_30px_rgba(217,168,61,0.32)] transition hover:-translate-y-0.5 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
           >
             Продать
             <CoinPrice
@@ -408,62 +436,66 @@ export function Roulette({
               className="ml-2"
             />
           </button>
-          <div className="flex items-center justify-center">
-            <button className="h-[46px] w-full rounded-[19px] bg-[#171a28] px-5 text-sm font-black text-[#dfe6ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition hover:-translate-y-0.5 hover:bg-[#20273a]">
-              Upgrade
-            </button>
-          </div>
+          <button className="h-[44px] rounded-[14px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] px-5 text-[13px] font-black text-[#9aa3bd] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition hover:-translate-y-0.5 hover:border-[#ffe28a]/30 hover:text-[#ffe28a]">
+            Upgrade →
+          </button>
         </div>
       ) : isSpinning ? (
-        <div className="grid w-full max-w-[720px] grid-cols-1 gap-3 sm:grid-cols-3">
+        <div className="grid w-full max-w-[720px] grid-cols-1 gap-2.5 sm:grid-cols-3">
           <div />
           <button
             disabled
-            className="h-[52px] rounded-[20px] bg-gradient-to-b from-[#ffb35c] to-[#ff7e3f] px-5 text-sm font-black text-[#14111a] opacity-75 shadow-[0_18px_34px_rgba(255,126,63,0.18)]"
+            className="bevel-cta inline-flex h-[48px] items-center justify-center gap-2 bg-gradient-to-b from-[#ffd266] to-[#d9a83d] px-6 text-[13px] font-black uppercase tracking-[0.08em] text-[#201707] opacity-85 shadow-[0_14px_30px_rgba(217,168,61,0.25)]"
           >
-            Открываем...
+            <span className="inline-flex gap-1">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#201707]" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#201707] [animation-delay:120ms]" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#201707] [animation-delay:240ms]" />
+            </span>
+            Открываем
           </button>
           <div />
         </div>
       ) : (
-        <div className="grid w-full max-w-[720px] grid-cols-1 gap-3 sm:grid-cols-3 sm:items-center">
-          <div className="flex items-center justify-center">
-            <div className="inline-flex h-[46px] w-full items-center justify-between gap-1 rounded-[19px] bg-[#171a28] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)]">
-              {openCounts.map((count) => (
-                <button
-                  key={count}
-                  type="button"
-                  onClick={() => setOpenCount(count)}
-                  className={`h-[38px] w-[38px] rounded-[16px] text-sm font-black transition ${
-                    openCount === count
-                      ? "bg-[#ffe28a] text-[#201707] shadow-[0_10px_22px_rgba(217,168,61,0.22)]"
-                      : "text-amber-100/62 hover:bg-[#20273a] hover:text-[#dfe6ff]"
-                  }`}
-                >
-                  {count}
-                </button>
-              ))}
-            </div>
+        <div className="grid w-full max-w-[720px] grid-cols-1 gap-2.5 sm:grid-cols-3 sm:items-center">
+          <div className="inline-flex h-[44px] w-full items-center justify-between gap-1 rounded-[14px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+            {openCounts.map((count) => (
+              <button
+                key={count}
+                type="button"
+                onClick={() => setOpenCount(count)}
+                className={`h-[36px] flex-1 rounded-[10px] text-[13px] font-black transition ${
+                  openCount === count
+                    ? "bg-gradient-to-b from-[#ffd266] to-[#d9a83d] text-[#201707] shadow-[0_6px_14px_rgba(217,168,61,0.32),inset_0_1px_0_rgba(255,255,255,0.3)]"
+                    : "text-[#7a8198] hover:text-[#f0f3ff]"
+                }`}
+              >
+                {count}
+              </button>
+            ))}
           </div>
 
           <button
             onClick={openCase}
             disabled={isSpinning}
-            className="h-[52px] rounded-[20px] bg-gradient-to-b from-[#ffb35c] to-[#ff7e3f] px-5 text-sm font-black text-[#14111a] shadow-[0_18px_34px_rgba(255,126,63,0.22)] transition hover:-translate-y-0.5 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
+            className="bevel-cta inline-flex h-[48px] items-center justify-center bg-gradient-to-b from-[#ffd266] to-[#d9a83d] px-6 text-[13px] font-black uppercase tracking-[0.08em] text-[#201707] shadow-[0_14px_30px_rgba(217,168,61,0.32)] transition hover:-translate-y-0.5 hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-70"
           >
             Открыть {openCount > 1 ? `${openCount} кейса` : "кейс"}
           </button>
 
-          <div className="flex items-center justify-center">
-            <button
-              type="button"
-              onClick={() => setIsFastOpen((value) => !value)}
-              disabled={isSpinning}
-              className="h-[46px] w-full rounded-[19px] bg-[#171a28] px-5 text-sm font-black text-[#dfe6ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition hover:-translate-y-0.5 hover:bg-[#20273a] disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              Открывать быстро
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => setIsFastOpen((value) => !value)}
+            disabled={isSpinning}
+            className={`inline-flex h-[44px] items-center justify-center gap-2 rounded-[14px] border px-5 text-[13px] font-black transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-70 ${
+              isFastOpen
+                ? "border-[#ffe28a]/40 bg-[linear-gradient(180deg,#1c1a14,#0a0a0e)] text-[#ffe28a] shadow-[inset_0_1px_0_rgba(255,226,138,0.08)]"
+                : "border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] text-[#9aa3bd] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] hover:border-[#ffe28a]/30 hover:text-[#ffe28a]"
+            }`}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-current" />
+            Быстро
+          </button>
         </div>
       )}
     </div>
@@ -519,6 +551,7 @@ export function Roulette({
       );
       setIsSpinning(false);
       setHasResult(true);
+      setWinFlashId((id) => id + 1);
       onFinish?.(nextWinners);
       return;
     }
@@ -542,39 +575,108 @@ export function Roulette({
     setHasResult(false);
   }
 
+  const isAnimating = transitionValue === "spin";
+  const overshootPx = isFastOpen ? 14 : 24;
+  const bouncePx = isFastOpen ? 5 : 9;
+  const spinAnimate = isAnimating
+    ? {
+        x: [
+          0,
+          translateX - overshootPx,
+          translateX + bouncePx,
+          translateX,
+        ],
+      }
+    : { x: translateX };
+  const spinTransition = isAnimating
+    ? ({
+        duration:
+          (isFastOpen ? FAST_SPIN_DURATION_MS : SPIN_DURATION_MS) / 1000,
+        times: [0, 0.84, 0.93, 1],
+        ease: [
+          [0.04, 0.82, 0.14, 1],
+          [0.34, 1.05, 0.5, 1],
+          [0.4, 0, 0.2, 1],
+        ],
+        type: "tween",
+      } as const)
+    : ({ duration: 0 } as const);
+
+  const statusLabel = isSpinning
+    ? "ROLLING"
+    : hasResult
+    ? "WINNER"
+    : "READY";
+  const statusDotClass = isSpinning
+    ? "bg-[#ffd266]"
+    : hasResult
+    ? "bg-[#42ff8b]"
+    : "bg-[#566077]";
+
   return (
     <div className={frame.wrapper}>
-      <section className={frame.section}>
-        <div ref={viewportRef} className={frame.viewport}>
+      <motion.section className={frame.section} animate={shakeControls}>
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-between px-4 py-2 text-[10px] font-black uppercase tracking-[0.28em] text-[#5a6178]">
+          <span className="flex items-center gap-2">
+            <span className="diamond-divider text-[#ffe28a]/70" />
+            <span className="text-[#9aa3bd]">CASE</span>
+            <span className="text-[#e9eefb]/90 tracking-[0.18em]">{caseItem.name}</span>
+          </span>
+          <span className="flex items-center gap-2">
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${statusDotClass} ${isSpinning ? "status-blink" : ""}`}
+            />
+            <span className={isSpinning ? "text-[#ffd266]" : hasResult ? "text-[#42ff8b]" : "text-[#9aa3bd]"}>
+              {statusLabel}
+            </span>
+          </span>
+        </div>
+        <span className="corner-bracket corner-bracket--tl" />
+        <span className="corner-bracket corner-bracket--tr" />
+        <span className="corner-bracket corner-bracket--bl" />
+        <span className="corner-bracket corner-bracket--br" />
+        <div ref={viewportRef} className={`${frame.viewport} mt-8`}>
           {frame.viewportOverlay ? (
             <div className={frame.viewportOverlay} />
           ) : null}
-          {showCasePreview ? (
-            <motion.div
-              initial={false}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: -20 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="pointer-events-none absolute inset-0 z-30 grid place-items-center bg-[radial-gradient(circle_at_center,rgba(255,226,138,0.14),rgba(23,26,20,0.64)_48%,rgba(23,26,20,0.86)_100%)]"
-            >
-              <div className="relative grid place-items-center">
-                <div className="absolute h-48 w-48 rounded-full bg-[#ffe28a]/12 blur-3xl" />
-                <motion.div
-                  animate={{ rotate: [0, 5, -5, 0] }}
-                  transition={{
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                >
-                  <CaseArt
-                    index={caseItem.artIndex}
-                    className="relative h-60 w-60"
-                  />
-                </motion.div>
-              </div>
-            </motion.div>
-          ) : null}
+          <div className={`scanline-overlay ${isSpinning ? "is-active" : ""}`} />
+          <AnimatePresence>
+            {showCasePreview ? (
+              <motion.div
+                key="case-preview"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.92 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="pointer-events-none absolute inset-0 z-30 grid place-items-center bg-[radial-gradient(circle_at_50%_42%,rgba(255,226,138,0.18),rgba(10,14,24,0.78)_52%,rgba(7,11,19,0.96)_100%)]"
+              >
+                <div className="relative grid place-items-center">
+                  <div className="absolute top-[58%] left-1/2 h-3 w-44 -translate-x-1/2 rounded-[50%] bg-[#ffe28a]/30 blur-2xl" />
+                  <div className="absolute h-56 w-56 rounded-full bg-[#ffe28a]/10 blur-3xl" />
+                  <motion.div
+                    animate={{
+                      y: [0, -6, 0],
+                      rotate: [-1.5, 1.5, -1.5],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      WebkitBoxReflect:
+                        "below 2px linear-gradient(transparent 55%, rgba(255,255,255,0.22))",
+                    }}
+                  >
+                    <CaseArt
+                      index={caseItem.artIndex}
+                      className="relative h-60 w-60"
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
 
           {showMultiOpen ? (
             <MultiOpenDisplay
@@ -584,83 +686,134 @@ export function Roulette({
             />
           ) : (
             <>
-              <div className="pointer-events-none absolute inset-y-0 left-1/2 z-20 w-1 -translate-x-1/2 rounded-full bg-gradient-to-b from-[#ffe28a] to-[#d9a83d] shadow-[0_0_22px_rgba(217,168,61,0.28)]" />
+              <motion.div
+                className="pointer-events-none absolute inset-y-0 left-1/2 z-[15] w-[112px] -translate-x-1/2 bg-[radial-gradient(ellipse_at_center,rgba(255,226,138,0.10),transparent_70%)]"
+                animate={{
+                  opacity: hasResult ? 1 : isSpinning ? 0.85 : 0.55,
+                }}
+                transition={{ duration: 0.4 }}
+              />
+              <div className="pointer-events-none absolute inset-y-0 left-1/2 z-20 -translate-x-1/2">
+                <div className="absolute left-1/2 top-0 h-0 w-0 -translate-x-1/2 border-l-[10px] border-r-[10px] border-t-[11px] border-l-transparent border-r-transparent border-t-[#ffe28a] drop-shadow-[0_3px_8px_rgba(255,226,138,0.65)]" />
+                <div className="absolute left-1/2 top-[14px] flex -translate-x-1/2 items-center gap-[26px]">
+                  <span className="block h-[2px] w-[10px] rounded-full bg-[#ffe28a]/55" />
+                  <span className="block h-[2px] w-[10px] rounded-full bg-[#ffe28a]/55" />
+                </div>
+                <div className="absolute bottom-0 left-1/2 h-0 w-0 -translate-x-1/2 border-b-[11px] border-l-[10px] border-r-[10px] border-b-[#ffe28a] border-l-transparent border-r-transparent drop-shadow-[0_-3px_8px_rgba(255,226,138,0.65)]" />
+                <div className="absolute bottom-[14px] left-1/2 flex -translate-x-1/2 items-center gap-[26px]">
+                  <span className="block h-[2px] w-[10px] rounded-full bg-[#ffe28a]/55" />
+                  <span className="block h-[2px] w-[10px] rounded-full bg-[#ffe28a]/55" />
+                </div>
+                <motion.div
+                  className="absolute left-1/2 top-1/2 h-[1.5px] w-[32px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#ffe28a]"
+                  animate={{
+                    opacity: hasResult ? 0 : isSpinning ? 0.45 : 0.7,
+                    width: hasResult ? 0 : 32,
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+                <motion.div
+                  className="absolute inset-y-3 left-1/2 w-[2px] -translate-x-1/2 rounded-full bg-gradient-to-b from-[#fff0be] via-[#ffd266] to-[#c98a2c]"
+                  animate={{
+                    boxShadow: hasResult
+                      ? "0 0 26px rgba(255,226,138,0.85), 0 0 4px rgba(255,226,138,0.9)"
+                      : isSpinning
+                      ? "0 0 18px rgba(255,226,138,0.55), 0 0 2px rgba(255,226,138,0.7)"
+                      : "0 0 10px rgba(255,226,138,0.35)",
+                  }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                />
+              </div>
+              {winFlashId > 0 ? (
+                <div key={`flash-${winFlashId}`} className="screen-flash" />
+              ) : null}
+              {winFlashId > 0 ? (
+                <div key={`burst-${winFlashId}`} className="win-burst">
+                  <div className="win-burst-ring" />
+                  <div className="win-burst-ring delay" />
+                </div>
+              ) : null}
               <div className={frame.edgeFade} />
               <div className={frame.edgeFadeRight} />
               <motion.div
                 ref={stripRef}
                 className="flex gap-1 px-1.5"
                 initial={false}
-                animate={{ x: translateX }}
-                transition={{
-                  duration:
-                    transitionValue !== "none"
-                      ? isFastOpen
-                        ? FAST_SPIN_DURATION_MS / 1000
-                        : SPIN_DURATION_MS / 1000
-                      : 0,
-                  ease: [0.08, 0.78, 0.16, 1],
-                  type: "tween",
-                }}
+                animate={spinAnimate}
+                transition={spinTransition}
                 onAnimationComplete={() => {
                   if (transitionValue !== "none") {
                     completeSingleSpin();
                   }
                 }}
               >
-                {displayItems.map((item, index) => (
-                  <motion.div
-                    ref={index === 0 ? sampleCardRef : null}
-                    key={`${item.id}-${index}`}
-                    className={`relative grid h-[252px] min-w-0 flex-none basis-[calc((100%-20px)/6)] place-items-center overflow-hidden rounded-[24px] border border-transparent bg-gradient-to-b ${rarityTone[item.rarity]} p-2.5 shadow-soft`}
-                    animate={
-                      hasResult && index === SINGLE_WIN_INDEX
-                        ? {
-                            scale: [1, 1.08, 1.02, 1],
-                            boxShadow: [
-                              "0 0 0 rgba(255, 226, 138, 0)",
-                              "0 0 40px rgba(255, 226, 138, 0.6)",
-                              "0 0 25px rgba(255, 226, 138, 0.4)",
-                              "0 0 15px rgba(255, 226, 138, 0.2)",
-                            ],
-                          }
-                        : {}
-                    }
-                    transition={{
-                      duration: 1.2,
-                      ease: [0.25, 0.46, 0.45, 0.94],
-                    }}
-                  >
-                    <img
-                      src="/textures/paw-mark.png"
-                      alt=""
-                      className="pointer-events-none absolute left-1/2 top-[43%] h-[96%] w-[96%] -translate-x-1/2 -translate-y-1/2 object-contain opacity-[0.16] mix-blend-soft-light"
-                    />
-                    <img
-                      src={item.image}
-                      alt=""
-                      className="relative h-[156px] w-[156px] object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.38)]"
-                    />
-                    <div className="relative mt-1 text-center">
-                      <p className="text-sm font-black text-white">
-                        {item.name}
-                      </p>
-                      {showPrices ? (
-                        <CoinPrice
-                          value={item.price}
-                          className="mt-1 justify-center text-xs font-black text-[#ffd35a]"
+                {displayItems.map((item, index) => {
+                  const isWinning = hasResult && index === SINGLE_WIN_INDEX;
+                  return (
+                    <motion.div
+                      ref={index === 0 ? sampleCardRef : null}
+                      key={`${item.id}-${index}`}
+                      className={`relative grid h-[252px] min-w-0 flex-none basis-[calc((100%-20px)/6)] place-items-center overflow-hidden rounded-[20px] border border-white/[0.04] bg-gradient-to-b ${rarityTone[item.rarity]} p-2.5 shadow-[0_10px_24px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.04)]`}
+                      animate={
+                        isWinning
+                          ? {
+                              scale: [1, 1.06, 1.02],
+                              boxShadow: [
+                                "0 10px 24px rgba(0,0,0,0.35), 0 0 0 rgba(255, 226, 138, 0)",
+                                "0 10px 24px rgba(0,0,0,0.35), 0 0 52px rgba(255, 226, 138, 0.75)",
+                                "0 10px 24px rgba(0,0,0,0.35), 0 0 28px rgba(255, 226, 138, 0.42)",
+                              ],
+                            }
+                          : {}
+                      }
+                      transition={{
+                        duration: 1.1,
+                        ease: [0.25, 0.46, 0.45, 0.94],
+                      }}
+                    >
+                      {isWinning ? (
+                        <motion.div
+                          className="pointer-events-none absolute inset-0 z-10 rounded-[20px]"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: [0, 1, 0.6, 0.4] }}
+                          transition={{ duration: 1, ease: "easeOut" }}
+                          style={{
+                            background:
+                              "radial-gradient(circle at 50% 50%, rgba(255,226,138,0.22), transparent 65%)",
+                          }}
                         />
                       ) : null}
-                    </div>
-                  </motion.div>
-                ))}
+                      <img
+                        src="/textures/paw-mark.png"
+                        alt=""
+                        className="pointer-events-none absolute left-1/2 top-[43%] h-[96%] w-[96%] -translate-x-1/2 -translate-y-1/2 object-contain opacity-[0.16] mix-blend-soft-light"
+                      />
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="relative h-[156px] w-[156px] object-contain drop-shadow-[0_14px_18px_rgba(0,0,0,0.38)]"
+                      />
+                      <div className="relative mt-1 text-center">
+                        <p className="text-sm font-black text-white">
+                          {item.name}
+                        </p>
+                        {showPrices ? (
+                          <CoinPrice
+                            value={item.price}
+                            className="mt-1 justify-center text-xs font-black text-[#ffd35a]"
+                          />
+                        ) : null}
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </motion.div>
             </>
           )}
         </div>
 
         {!detachedControls ? controlsContent : null}
-      </section>
+      </motion.section>
 
       {detachedControls ? (
         <div className={frame.controlsShell}>{controlsContent}</div>

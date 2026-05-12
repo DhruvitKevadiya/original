@@ -10,10 +10,10 @@ export default function Home() {
     <>
       <LiveDropTicker />
       <Header />
-      <main className="mx-auto max-w-[1280px] space-y-8 px-4 py-6 sm:px-6 xl:px-8">
+      <main className="mx-auto max-w-[1280px] space-y-6 px-4 py-5 sm:space-y-8 sm:px-6 sm:py-6 xl:px-8">
         <HubBoards />
         <HomeClient items={cases} />
-        <div className="pt-10 sm:pt-12">
+        <div className="pt-8 sm:pt-10">
           <StatsFooter />
         </div>
       </main>

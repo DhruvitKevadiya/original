@@ -25,12 +25,12 @@ export const priceFilters: PriceFilter[] = [
 export function CaseFilters({ query, selectedPrice, onQueryChange, onPriceChange }: CaseFiltersProps) {
   return (
     <section className="flex flex-wrap items-center gap-3">
-      <label className="flex h-[46px] w-[260px] shrink-0 items-center gap-3 rounded-[19px] border border-[#242838] bg-[linear-gradient(180deg,#1b2233,#10131d)] px-4 text-[#dfe6ff]/72 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
-        <Search size={18} className="text-[#c6d0ec]/82" />
+      <label className="flex h-[44px] w-[260px] shrink-0 items-center gap-2.5 rounded-[14px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] px-4 text-[#9aa3bd] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] focus-within:border-[#ffe28a]/30">
+        <Search size={17} className="text-[#7a8198]" />
         <input
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
-          className="min-w-0 flex-1 bg-transparent text-sm font-black text-white outline-none placeholder:text-[#aeb8d8]/50"
+          className="min-w-0 flex-1 bg-transparent text-[13px] font-black text-white outline-none placeholder:text-[#5a6178]"
           placeholder={"Поиск кейса"}
         />
       </label>
@@ -42,10 +42,10 @@ export function CaseFilters({ query, selectedPrice, onQueryChange, onPriceChange
           <button
             key={price.label}
             onClick={() => onPriceChange(isSelected ? null : price.label)}
-            className={`inline-flex h-[46px] items-center gap-2 rounded-[19px] border border-[#242838] px-4 text-sm font-black transition ${
+            className={`inline-flex h-[44px] items-center gap-2 rounded-[14px] border px-3.5 text-[13px] font-black transition ${
               isSelected
-                ? "bg-[linear-gradient(180deg,#2a3550,#161d2f)] text-[#f0f4ff] shadow-[0_14px_32px_rgba(17,19,29,0.32)]"
-                : "bg-[linear-gradient(180deg,#1c2233,#121726)] text-[#c6d0ec]/84 hover:bg-[linear-gradient(180deg,#232b40,#151b2c)] hover:text-[#f0f4ff]"
+                ? "border-[#ffe28a]/40 bg-[linear-gradient(180deg,#1c1a14,#0a0a0e)] text-[#ffe28a] shadow-[0_8px_22px_rgba(217,168,61,0.18),inset_0_1px_0_rgba(255,226,138,0.08)]"
+                : "border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] text-[#9aa3bd] hover:border-[#2a3145] hover:text-[#f0f3ff]"
             }`}
           >
             <span className="coin scale-90" />
@@ -54,7 +54,7 @@ export function CaseFilters({ query, selectedPrice, onQueryChange, onPriceChange
         );
       })}
 
-      <button className="ml-auto h-[46px] rounded-[19px] border border-[#242838] bg-[linear-gradient(180deg,#20273a,#141a2a)] px-4 text-sm font-black text-[#f0f4ff] shadow-[0_14px_32px_rgba(17,19,29,0.32)] transition hover:brightness-110">
+      <button className="ml-auto h-[44px] rounded-[14px] border border-[#161c2a] bg-[linear-gradient(180deg,#0e131e,#070a12)] px-4 text-[13px] font-black text-[#f0f3ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition hover:border-[#ffe28a]/30 hover:text-[#ffe28a]">
         {"Доступные мне"}
       </button>
     </section>

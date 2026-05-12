@@ -22,8 +22,8 @@ const rarityAccent = {
 };
 
 const filterButtons = [
-  { label: "Gold", icon: Crown, className: "bg-[linear-gradient(180deg,#ffb35c,#ff7e3f)] text-[#14111a]" },
-  { label: "\u041E\u0431\u044B\u0447\u043D\u044B\u0435", icon: Grid2X2, className: "bg-[linear-gradient(180deg,#171a28,#10131d)] text-[#c8d2f2] hover:bg-[#20273a] hover:text-white" },
+  { label: "Gold", icon: Crown, className: "bg-[linear-gradient(180deg,#ffd266,#d9a83d)] text-[#201707] shadow-[0_4px_10px_rgba(217,168,61,0.32)]" },
+  { label: "\u041E\u0431\u044B\u0447\u043D\u044B\u0435", icon: Grid2X2, className: "bg-[linear-gradient(180deg,#0e131e,#070a12)] text-[#9aa3bd] border border-[#161c2a] hover:text-white" },
 ];
 
 const players = ["PandaMaster", "BambooKid", "LuckyBao", "HoneySpin", "JadeFox", "GoldRush"];
@@ -34,20 +34,20 @@ export function LiveDropTicker() {
   return (
     <section className="w-full bg-transparent">
       <div className="flex w-full items-start gap-2 overflow-hidden px-1.5 pb-1 pt-1.5">
-        <div className="grid h-[94px] w-[84px] shrink-0 grid-cols-2 gap-1 rounded-[18px] bg-[linear-gradient(180deg,#171a28,#10131d)] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)]">
-          <div className="relative col-span-2 overflow-hidden rounded-[16px] bg-[#10131d]/58 text-center">
+        <div className="grid h-[94px] w-[84px] shrink-0 grid-cols-2 gap-1 rounded-[14px] border border-[#161c2a] bg-[linear-gradient(180deg,#0d1220,#070a12)] p-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+          <div className="relative col-span-2 overflow-hidden rounded-[12px] bg-[#04060b]/70 text-center">
             <div className="grid h-[48px] place-items-center px-1 py-1">
-              <p className="inline-flex items-center gap-1 text-[8px] font-bold leading-none text-[#aeb8d8]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#42ff8b] shadow-[0_0_10px_rgba(66,255,139,0.8)]" />
+              <p className="inline-flex items-center gap-1.5 text-[8px] font-black uppercase leading-none tracking-[0.14em] text-[#7a8198]">
+                <span className="online-pulse h-1.5 w-1.5 rounded-full bg-[#42ff8b]" />
                 {"\u041E\u043D\u043B\u0430\u0439\u043D"}
               </p>
-              <p className="text-[12px] font-black leading-none text-white">3 744</p>
+              <p className="text-[13px] font-black leading-none text-white">3 744</p>
             </div>
           </div>
           {filterButtons.map(({ label, icon: Icon, className }) => (
             <button
               key={label}
-              className={`grid h-[31px] place-items-center rounded-[13px] shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition hover:-translate-y-0.5 ${className}`}
+              className={`grid h-[31px] place-items-center rounded-[10px] shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition hover:-translate-y-0.5 ${className}`}
               title={label}
             >
               <Icon size={14} strokeWidth={2.7} />
@@ -55,7 +55,7 @@ export function LiveDropTicker() {
           ))}
         </div>
 
-        <div className="group/live h-[106px] min-w-0 flex-1 overflow-hidden rounded-[20px] bg-[linear-gradient(180deg,#171a28,#10131d)] px-1.5 py-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_12px_30px_rgba(0,0,0,0.22)]">
+        <div className="group/live h-[106px] min-w-0 flex-1 overflow-hidden rounded-[14px] border border-[#161c2a] bg-[linear-gradient(180deg,#0d1220,#070a12)] px-1.5 py-[3px] shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
           <div className="live-marquee flex w-max items-center gap-[2px] pl-0.5 group-hover/live:[animation-play-state:paused]">
             {tickerItems.map((drop, index) => (
               <div

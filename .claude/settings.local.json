@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(npx tsc --noEmit 2>&1)",
+      "PowerShell(npx tsc --noEmit; \"exit=$LASTEXITCODE\")",
+      "PowerShell(Get-NetTCPConnection -LocalPort 3000,3001,3002,3003 -State Listen -ErrorAction SilentlyContinue)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/\" -UseBasicParsing -TimeoutSec 60; \"home: $\\($r.StatusCode\\)\" } catch { \"home error: $\\($_.Exception.Message\\)\" }; try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/case/honey-bag\" -UseBasicParsing -TimeoutSec 60; \"case: $\\($r.StatusCode\\)\" } catch { \"case error: $\\($_.Exception.Message\\)\" })",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/case/honey-bag\" -UseBasicParsing -TimeoutSec 60; \"case: $\\($r.StatusCode\\)\" } catch { \"case error: $\\($_.Exception.Message\\)\" }; \"---\"; Get-Content \"f:/original \\(3\\)/original/dev-test.log\" -Tail 10)",
+      "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/case/honey-bag\" -UseBasicParsing -TimeoutSec 30; \"case: $\\($r.StatusCode\\)\" } catch { \"case error: $\\($_.Exception.Message\\)\" }; try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/\" -UseBasicParsing -TimeoutSec 30; \"home: $\\($r.StatusCode\\)\" } catch { \"home error: $\\($_.Exception.Message\\)\" })"
+    ]
+  }
+}
